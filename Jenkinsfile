@@ -46,7 +46,7 @@ pipeline{
           withCredentials([[$class: 'UsernamePasswordMultiBinding',
               credentialsId: 'heroku',
                 usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                  //sh "docker login -u $USERNAME -p $PASSWORD registry.heroku.com"
+                  sh "docker login -u $USERNAME -p $PASSWORD registry.heroku.com"
                   sh "echo 'machine api.heroku.com login $USERNAME password $PASSWORD' > ~/.netrc"
                   sh "chmod 600 ~/.netrc"
                 }
