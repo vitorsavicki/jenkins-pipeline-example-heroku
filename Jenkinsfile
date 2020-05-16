@@ -51,7 +51,7 @@ pipeline{
                 // Tag docker img (in my case it was an image in dockerhub)
           sh "docker tag webimage:$BUILD_NUMBER registry.heroku.com/damp-bayou-27616/web"
           sh "docker push registry.heroku.com/damp-bayou-27616/web"
-          sh "/usr/local/bin/heroku container:release web --app=damp-bayou-27616"
+          sh "/var/lib/snapd/snap/bin/heroku container:release web --app=damp-bayou-27616"
           sh "docker logout registry.heroku.com"
           }
         }             
