@@ -46,9 +46,8 @@ pipeline{
           withCredentials([[$class: 'UsernamePasswordMultiBinding',
               credentialsId: 'heroku',
                 usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                  //sh "docker login -u $USERNAME -p $PASSWORD registry.heroku.com"
-                  sh "echo 'machine git.heroku.com login $USERNAME password $PASSWORD' > ~/.netrc"
-                  sh "chmod 600 ~/.netrc"
+                  sh "docker login -u $USERNAME -p $PASSWORD registry.heroku.com"
+               
                 }
                 // Tag docker img (in my case it was an image in dockerhub)
           sh "docker tag webimage:$BUILD_NUMBER registry.heroku.com/damp-bayou-27616/web"
