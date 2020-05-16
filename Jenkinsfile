@@ -42,17 +42,15 @@ pipeline{
 
   stage('Deploy to Heroku') {
       steps {
-        script {
+         script {
           withCredentials([[$class: 'UsernamePasswordMultiBinding',
               credentialsId: 'heroku',
                 usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                  sh "docker login -u $USERNAME -p $PASSWORD registry.heroku.com"
+                  sh "echo 'machine git.heroku.com login $USERNAME password $PASSWORD' > ~/.netrc"
+                  sh "chmod 600 ~/.netrc"
+                  sh "heroku git:remote -a damp-bayou-27616"
+                  sh "git push -f https://git.heroku.com/damp-bayou-27616.git HEAD:master"
                 }
-                // Tag docker img (in my case it was an image in dockerhub)
-          sh "docker tag webimage:$BUILD_NUMBER registry.heroku.com/damp-bayou-27616/web"
-          sh "docker push registry.heroku.com/damp-bayou-27616/web"
-          sh "/var/lib/snapd/snap/bin/heroku container:release web --app=damp-bayou-27616"
-          sh "docker logout registry.heroku.com"
           }
         }             
     }
