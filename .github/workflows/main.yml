@@ -1,20 +1,12 @@
-name: Create production promotion pull request
-on:
-  push:
-    branches:
-      - master
-jobs:
-  productionPromotion:
+robot_test:
     runs-on: ubuntu-latest
+    name: Run Robot Framework Tests
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: production
-      - name: Reset promotion branch
-        run: |
-          git fetch origin master:master
-          git reset --hard master
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v2
-        with:
-          branch: production-promotion
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Robot Framework
+        uses: joonvena/robotframework-docker-action@v0.1
+        env:
+          BROWSER: chrome
+          ROBOT_TESTS_DIR: ${{ github.workspace }}/robot_tests
+          ROBOT_REPORTS_DIR: ${{ github.workspace }}/reports
